@@ -14,17 +14,7 @@ INSERT INTO Dept (Dname, Dnumber, hairdate) VALUES
 ('Quality', 11, '2026-05-01');
 
 
-INSERT INTO Employee (SSN, Fname, Lname, Gn, BD, Dnum) VALUES 
-('111111111', 'Mohammed', 'Al-Raisi', 'M', '1992-03-12', 1),
-('222222222', 'Fatma', 'Al-Zadjali', 'F', '1995-07-22', 2),
-('333333333', 'Said', 'Al-Hasni', 'M', '1988-11-05', 3),
-('444444444', 'Muna', 'Al-Habsi', 'F', '1997-01-30', 4),
-('555555555', 'Khalid', 'Al-Abri', 'M', '1990-09-14', 5),
-('666666666', 'Amna', 'Al-Balushi', 'F', '1994-05-18', 6),
-('777777777', 'Salim', 'Al-Farsi', 'M', '1985-12-01', 7),
-('888888888', 'Asma', 'Al-Alawi', 'F', '1998-08-25', 8),
-('999999999', 'Hamad', 'Al-Busaidi', 'M', '1991-04-09', 9),
-('101010101', 'Huda', 'Al-Ghafri', 'F', '1993-10-20', 10);
+
 
 
 
@@ -91,6 +81,41 @@ INSERT INTO Dependent (dname, Gen, BD, SSN) VALUES
 
 
 
+
+INSERT INTO Employee (SSN, Fname, Lname, Dnum, Salary) VALUES 
+('111111111', 'Mohammed', 'Al-Raisi', 1, 1200),
+('222222222', 'Fatma', 'Al-Zadjali', 2, 1300),
+('333333333', 'Said', 'Al-Hasni', 3, 900),
+('444444444', 'Muna', 'Al-Habsi', 4, 950),
+('555555555', 'Khalid', 'Al-Abri', 1, 1500),
+('666666666', 'Amna', 'Al-Balushi', 2, 1400),
+('777777777', 'Salim', 'Al-Farsi', 3, 1100),
+('888888888', 'Asma', 'Al-Alawi', 4, 1150),
+('999999999', 'Hamad', 'Al-Busaidi', 1, 1000),
+('101010101', 'Huda', 'Al-Ghafri', 2, 1050);
+
+UPDATE Employee SET Salary = Salary * 1.10 WHERE Dnum = 1;
+UPDATE Dept SET Dname = 'Technical Support' WHERE Dnumber = 1;
+UPDATE Project SET Pname = 'E-Store' WHERE Pnum = 10;
+UPDATE Employee SET Dnum = 2 WHERE SSN = '101';
+UPDATE Employee SET Salary = 1250 WHERE SSN = '105';
+
+
+
+
+UPDATE Employee SET Salary = 1200 WHERE SSN = '111111111';
+UPDATE Employee SET Salary = 1300 WHERE SSN = '222222222';
+UPDATE Employee SET Salary = 900  WHERE SSN = '333333333';
+UPDATE Employee SET Salary = 950  WHERE SSN = '444444444';
+UPDATE Employee SET Salary = 1500 WHERE SSN = '555555555';
+UPDATE Employee SET Salary = 1400 WHERE SSN = '666666666';
+UPDATE Employee SET Salary = 1100 WHERE SSN = '777777777';
+UPDATE Employee SET Salary = 1150 WHERE SSN = '888888888';
+UPDATE Employee SET Salary = 1000 WHERE SSN = '999999999';
+UPDATE Employee SET Salary = 1050 WHERE SSN = '101010101';
+UPDATE Employee SET Salary = 1100 WHERE SSN = '123456789';
+
+
 UPDATE Work_On
 SET W_H = 40
 WHERE SSN = '111111111' AND Pnum = 101;
@@ -106,6 +131,48 @@ DELETE FROM Dependent
 WHERE dname = 'Ali' AND SSN = '111111111';
 
 --DROP TABLE Dependent;
+
+
+SELECT Employee.Fname + ' ' + Employee.Lname AS Full_Name, Dept.Dname
+FROM Employee
+INNER JOIN Dept ON Employee.Dnum = Dept.Dnumber
+ORDER BY Full_Name;
+
+
+SELECT Employee.Fname, Dept.Dname
+FROM Employee
+LEFT JOIN Dept ON Employee.Dnum = Dept.Dnumber
+ORDER BY Employee.Fname;
+
+
+SELECT Dept.Dname, Location.loc
+FROM Dept
+RIGHT JOIN Location ON Dept.Dnumber = Location.Dnum
+ORDER BY Location.loc;
+
+
+SELECT 
+    Employee.Fname + ' ' + Employee.Lname AS Employee_Name, 
+    Project.Pname AS Project_Name, 
+    Work_On.W_H AS Working_Hours
+FROM Employee
+INNER JOIN Work_On ON Employee.SSN = Work_On.SSN
+INNER JOIN Project ON Work_On.Pnum = Project.Pnum
+ORDER BY Employee_Name;
+
+SELECT Project.Pname, SUM(Work_On.W_H) AS Total_Hours
+FROM Project
+INNER JOIN Work_On ON Project.Pnum = Work_On.Pnum
+GROUP BY Project.Pname
+ORDER BY Total_Hours DESC;
+
+
+--DROP TABLE IF EXISTS Dependent;
+--DROP TABLE IF EXISTS Work_On;
+--DROP TABLE IF EXISTS Project;
+--DROP TABLE IF EXISTS Location;
+--DROP TABLE IF EXISTS Employee;
+--DROP TABLE IF EXISTS Dept;
 
 
 SELECT * FROM Location;
