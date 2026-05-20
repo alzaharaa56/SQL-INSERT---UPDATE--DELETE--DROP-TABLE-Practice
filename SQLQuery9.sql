@@ -239,3 +239,6 @@ WHERE Payment_status = 'Paid';
 
 
 --DROP TABLE MEDICAL_RECORD;
+--DROP TABLE IF EXISTS Appointments;
+--DROP TABLE IF EXISTS Patients;
+--DROP TABLE IF EXISTS Doctors;
